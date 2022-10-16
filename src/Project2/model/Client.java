@@ -7,8 +7,11 @@ package Project2.model;
 
 import Project2.service.DBManager;
 import Project2.controller.FarmController;
+import Project2.entity.Animal;
+import Project2.entity.AnimalFarm;
 import Project2.service.ImageFactory;
 import java.awt.BorderLayout;
+import java.awt.Choice;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -113,9 +116,17 @@ public class Client {
         StrawPanel panelConfig = new StrawPanel();
         JTextArea textGame = new JTextArea();
         textGame.setEditable(false);
-        textGame.setPreferredSize(new Dimension(1000, 92));
+        textGame.setPreferredSize(new Dimension(800, 92));
+        textGame.setText("Welcome to the farm!");
         panelConfig.add(textGame);
         panelConfig.setPreferredSize(new Dimension(1000, 100));
+        Choice choiceActivity = new Choice();
+        choiceActivity.setName("Activities");
+        choiceActivity.addItem("Feed Animals");
+        choiceActivity.addItem("Water Animals");
+        choiceActivity.addItem("Sleep/save");
+        panelConfig.add(choiceActivity, BorderLayout.EAST);
+        choiceActivity.setEnabled(false);
 
         frameGame.add(panelGameHeader);
         frameGame.add(panelGame);
@@ -274,11 +285,10 @@ public class Client {
 
         @Override
         public void paintComponent(Graphics g) {
-//            g.setColor(Color.RED);
-//            g.fillRect(0, 0, 1000, 400);
-//            g.drawRect(0, 0, 1000, 400);
             g.drawImage(imageFactory.getImage("background"), 0, 0, this);
-            g.drawImage(imageFactory.getImage("pig"), 0, 0, this);
+            for (Animal a : ((AnimalFarm) farm.getFarm()).getAnimals()) {
+                g.drawImage(imageFactory.getImage(a.getType()), a.getX(), a.getY(), this);
+            }
             System.out.println("painting!");
         }
 
