@@ -25,6 +25,8 @@ public class Sheep extends Animal {
         this.type = "Sheep";
         this.mood = moodCheck();
         this.value = 165;
+        this.x = 50;
+        this.y = 50;
     }
 
     @Override

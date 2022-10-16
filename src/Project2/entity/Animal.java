@@ -22,5 +22,8 @@ public abstract class Animal implements AnimalInterface, Runnable {
     String type;
     int value;
     Random random;
+    //x & y for gui
+    int x;
+    int y;
 
 }

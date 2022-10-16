@@ -30,6 +30,8 @@ public class Kiwi extends Animal {
         this.type = "Kiwi";
         this.mood = Mood.JOYFUL;
         this.value = 888;
+        this.x = 50;
+        this.y = 50;
     }
 
     @Override
