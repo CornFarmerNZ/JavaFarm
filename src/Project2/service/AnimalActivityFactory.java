@@ -16,6 +16,12 @@ import Project2.entity.WaterAnimalActivity;
  */
 public class AnimalActivityFactory {
 
+    AnimalFarm farm;
+
+    public AnimalActivityFactory(AnimalFarm farm) {
+        this.farm = farm;
+    }
+
     /**
      * gets an Activity from the Activity Factory.
      *
@@ -23,7 +29,7 @@ public class AnimalActivityFactory {
      * @param farm
      * @return an activity.
      */
-    public AbstractActivity get(String activity, AnimalFarm farm) {
+    public AbstractActivity get(String activity) {
         String input = activity.toUpperCase();
 
         if (input.equals("WATER ANIMALS")) {
