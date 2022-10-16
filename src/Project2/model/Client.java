@@ -7,12 +7,20 @@ package Project2.model;
 
 import Project2.service.DBManager;
 import Project2.controller.FarmController;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -68,6 +76,7 @@ public class Client {
         JPanel panelGif = new JPanel();
         panelGif.setPreferredSize(new Dimension(600, 500));
         JLabel labelGif = new JLabel(new ImageIcon("./resources/dicerolling.gif"));
+        labelGif.setVisible(false);
         JLabel labelResultPrefix = new JLabel();
         JLabel labelResult = new JLabel();
         JLabel labelFarmNameResult = new JLabel();
@@ -80,13 +89,21 @@ public class Client {
         //rendered farm window - main game.
         JFrame frameGame = new JFrame();
         frameGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frameGame.setPreferredSize(new Dimension(1000, 800));
+        frameGame.setPreferredSize(new Dimension(1000, 600));
         frameGame.setLocationRelativeTo(null);
+        frameGame.setLayout(new BorderLayout());
+        frameGame.setContentPane(new JLabel(new ImageIcon("./resources/grass.jpg")));
+        frameGame.setLayout(new FlowLayout());
+//        Container gamePane = frameGame.getContentPane();
+//        gamePane.setLayout(new BoxLayout(gamePane, BoxLayout.Y_AXIS));
 
         JPanel panelGameHeader = new JPanel();
         panelGameHeader.setPreferredSize(new Dimension(1000, 100));
-        JPanel panelGame = new JPanel();
-        panelGame.setPreferredSize(new Dimension(1000, 600));
+        JLabel labelGame = new JLabel("Java Farm");
+        labelGame.setFont(new Font("Serif", Font.BOLD, 48));
+        panelGameHeader.add(labelGame);
+        DPanel panelGame = new DPanel();
+        panelGame.setPreferredSize(new Dimension(1000, 400));
         JPanel panelConfig = new JPanel();
         panelConfig.setPreferredSize(new Dimension(1000, 100));
 
@@ -97,16 +114,20 @@ public class Client {
         frameGame.pack();
         frameGame.setVisible(false);
 
-        Timer timerGame = new Timer(100, event -> {
+        Timer timerGame = new Timer(1000, event -> {
 //            if (!farm.getFarm().isPlaying()) {
 //                ((Timer) event.getSource()).stop();
 //            }
+//            panelGame.paintComponent(panelGame.getGraphics());
             frameGame.setTitle(farm.getFarm().getName() + " - Day: " + farm.getFarm().getDay() + " - Energy: " + farm.getFarm().getEnergy() + " - Gold: " + farm.getFarm().getGold());
-            while (farm.getFarm().isPlaying()) {
+            if (farm.getFarm().isPlaying()) {
+                panelGame.revalidate();
+                panelGame.repaint();
             }
         });
 
         Timer timer = new Timer(25, event -> {
+            labelGif.setVisible(true);
             int rand = random.nextInt(1000);
             labelResult.setText("" + rand);
             if (random.nextInt(1000) <= 20) {
@@ -115,8 +136,9 @@ public class Client {
                 frameGame.setTitle(farm.getFarm().getName());
                 frameFarm.setVisible(false);
                 frameGame.setVisible(true);
-                timerGame.start();
+                labelGif.setVisible(false);
                 ((Timer) event.getSource()).stop();
+                timerGame.start();
             }
         });
 
@@ -220,4 +242,24 @@ public class Client {
         frameLogin.setVisible(true);
     }
 
+    protected static class DPanel extends JPanel {
+
+        public DPanel() {
+            super();
+        }
+
+        @Override
+        public void paintComponent(Graphics g) {
+            g.setColor(Color.RED);
+            g.fillRect(0, 0, 1000, 400);
+            g.drawRect(0, 0, 1000, 400);
+            try {
+                g.drawImage(ImageIO.read((new File("./resources/minecraftGrassBlock.png"))), 0, 0, this);
+            } catch (IOException ex) {
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("painting!");
+        }
+
+    }
 }
