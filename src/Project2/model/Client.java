@@ -7,6 +7,7 @@ package Project2.model;
 
 import Project2.service.DBManager;
 import Project2.controller.FarmController;
+import Project2.service.ImageFactory;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -44,11 +45,13 @@ public class Client {
     static FarmController farm;
     static DBManager dbManager;
     static String currentUser;
+    static ImageFactory imageFactory;
 
     public static void main(String[] args) {
         farm = new FarmController();
         dbManager = new DBManager();
         dbManager.establishConnection();
+        imageFactory = new ImageFactory();
         Random random = new Random();
 
         //Farm configuration window.
@@ -92,19 +95,20 @@ public class Client {
         frameGame.setPreferredSize(new Dimension(1000, 600));
         frameGame.setLocationRelativeTo(null);
         frameGame.setLayout(new BorderLayout());
-        frameGame.setContentPane(new JLabel(new ImageIcon("./resources/grass.jpg")));
+        frameGame.setContentPane(new JLabel(new ImageIcon("./resources/soil.png")));
         frameGame.setLayout(new FlowLayout());
 //        Container gamePane = frameGame.getContentPane();
 //        gamePane.setLayout(new BoxLayout(gamePane, BoxLayout.Y_AXIS));
 
-        JPanel panelGameHeader = new JPanel();
+        StrawPanel panelGameHeader = new StrawPanel();
         panelGameHeader.setPreferredSize(new Dimension(1000, 100));
+
         JLabel labelGame = new JLabel("Java Farm");
         labelGame.setFont(new Font("Serif", Font.BOLD, 48));
         panelGameHeader.add(labelGame);
         DPanel panelGame = new DPanel();
         panelGame.setPreferredSize(new Dimension(1000, 400));
-        JPanel panelConfig = new JPanel();
+        StrawPanel panelConfig = new StrawPanel();
         panelConfig.setPreferredSize(new Dimension(1000, 100));
 
         frameGame.add(panelGameHeader);
@@ -138,6 +142,7 @@ public class Client {
                 frameGame.setVisible(true);
                 labelGif.setVisible(false);
                 ((Timer) event.getSource()).stop();
+                panelGameHeader.repaint();
                 timerGame.start();
             }
         });
@@ -242,6 +247,19 @@ public class Client {
         frameLogin.setVisible(true);
     }
 
+    protected static class StrawPanel extends JPanel {
+
+        public StrawPanel() {
+            super();
+            repaint();
+        }
+
+        @Override
+        public void paintComponent(Graphics g) {
+            g.drawImage(imageFactory.getImage("header"), 0, 0, this);
+        }
+    }
+
     protected static class DPanel extends JPanel {
 
         public DPanel() {
@@ -250,14 +268,11 @@ public class Client {
 
         @Override
         public void paintComponent(Graphics g) {
-            g.setColor(Color.RED);
-            g.fillRect(0, 0, 1000, 400);
-            g.drawRect(0, 0, 1000, 400);
-            try {
-                g.drawImage(ImageIO.read((new File("./resources/minecraftGrassBlock.png"))), 0, 0, this);
-            } catch (IOException ex) {
-                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            g.setColor(Color.RED);
+//            g.fillRect(0, 0, 1000, 400);
+//            g.drawRect(0, 0, 1000, 400);
+            g.drawImage(imageFactory.getImage("background"), 0, 0, this);
+            g.drawImage(imageFactory.getImage("pig"), 0, 0, this);
             System.out.println("painting!");
         }
 
