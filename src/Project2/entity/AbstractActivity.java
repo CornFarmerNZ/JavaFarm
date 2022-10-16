@@ -11,5 +11,5 @@ package Project2.entity;
  */
 public abstract class AbstractActivity {
 
-    public abstract boolean start(FarmInterface farm);
+    public abstract boolean start();
 };
