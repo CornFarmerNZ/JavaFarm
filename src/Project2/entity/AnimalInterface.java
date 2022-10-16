@@ -29,6 +29,12 @@ public interface AnimalInterface {
 
     public void kill();
 
+    public String getType();
+
+    public int getX();
+
+    public int getY();
+
     public enum Mood {
         JOYFUL {
             public String asLowerCase() {
