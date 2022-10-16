@@ -32,6 +32,7 @@ public class Kiwi extends Animal {
         this.value = 888;
         this.x = 50;
         this.y = 50;
+        this.direction = 1;
     }
 
     @Override
@@ -104,6 +105,8 @@ public class Kiwi extends Animal {
                     //occurs once a minute, on average.
                     this.hunger++;
                 }
+                this.x += (1 * this.direction);
+                this.y += (1 * this.direction);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Pig.class.getName()).log(Level.SEVERE, null, ex);
             }

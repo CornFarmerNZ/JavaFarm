@@ -27,6 +27,7 @@ public class Sheep extends Animal {
         this.value = 165;
         this.x = 50;
         this.y = 50;
+        this.direction = 1;
     }
 
     @Override
@@ -104,6 +105,8 @@ public class Sheep extends Animal {
                     this.hunger += 3;
                     this.thirst += 1;
                 }
+                this.x += (1 * this.direction);
+                this.y += (1 * this.direction);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Pig.class.getName()).log(Level.SEVERE, null, ex);
             }

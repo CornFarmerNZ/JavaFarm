@@ -25,5 +25,6 @@ public abstract class Animal implements AnimalInterface, Runnable {
     //x & y for gui
     int x;
     int y;
+    int direction;
 
 }

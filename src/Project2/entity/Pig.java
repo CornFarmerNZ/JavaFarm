@@ -31,6 +31,7 @@ public class Pig extends Animal {
         this.value = 100;
         this.x = 50;
         this.y = 50;
+        this.direction = 1;
     }
 
     @Override
@@ -108,6 +109,8 @@ public class Pig extends Animal {
                     this.hunger++;
                     this.thirst += 2;
                 }
+                this.x += (1 * this.direction);
+                this.y += (1 * this.direction);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Pig.class.getName()).log(Level.SEVERE, null, ex);
             }

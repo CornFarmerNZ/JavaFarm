@@ -27,6 +27,7 @@ public class Horse extends Animal {
         this.value = 225;
         this.x = 50;
         this.y = 50;
+        this.direction = 1;
     }
 
     @Override
@@ -103,7 +104,10 @@ public class Horse extends Animal {
                     //occurs every 75s on average.
                     this.hunger += 1;
                     this.thirst += 2;
+
                 }
+                this.x += (1 * this.direction);
+                this.y += (1 * this.direction);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Pig.class.getName()).log(Level.SEVERE, null, ex);
             }
