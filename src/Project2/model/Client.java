@@ -28,6 +28,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
@@ -92,7 +93,8 @@ public class Client {
         //rendered farm window - main game.
         JFrame frameGame = new JFrame();
         frameGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frameGame.setPreferredSize(new Dimension(1000, 600));
+        frameGame.setPreferredSize(new Dimension(1014, 650));
+        frameGame.setMinimumSize(new Dimension(1014, 650));
         frameGame.setLocationRelativeTo(null);
         frameGame.setLayout(new BorderLayout());
         frameGame.setContentPane(new JLabel(new ImageIcon("./resources/soil.png")));
@@ -109,6 +111,10 @@ public class Client {
         DPanel panelGame = new DPanel();
         panelGame.setPreferredSize(new Dimension(1000, 400));
         StrawPanel panelConfig = new StrawPanel();
+        JTextArea textGame = new JTextArea();
+        textGame.setEditable(false);
+        textGame.setPreferredSize(new Dimension(1000, 92));
+        panelConfig.add(textGame);
         panelConfig.setPreferredSize(new Dimension(1000, 100));
 
         frameGame.add(panelGameHeader);
