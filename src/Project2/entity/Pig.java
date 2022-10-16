@@ -34,6 +34,11 @@ public class Pig extends Animal {
     }
 
     @Override
+    public String getType() {
+        return "Pig";
+    }
+
+    @Override
     public int setHunger(int num) {
         synchronized (this) {
             this.hunger = num;
@@ -132,5 +137,15 @@ public class Pig extends Animal {
     @Override
     public void kill() {
         this.alive = false;
+    }
+
+    @Override
+    public int getX() {
+        return this.x;
+    }
+
+    @Override
+    public int getY() {
+        return this.y;
     }
 }
