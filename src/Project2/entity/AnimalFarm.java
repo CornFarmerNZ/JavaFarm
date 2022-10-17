@@ -44,6 +44,14 @@ public class AnimalFarm implements FarmInterface, Runnable {
         animals.put(temp.id, temp);
     }
 
+    public void addAnimal(int age, String animal, int hunger, int thirst) {
+        Animal temp = factory.get(animal);
+        temp.age = age;
+        temp.hunger = hunger;
+        temp.thirst = thirst;
+        animals.put(temp.id, temp);
+    }
+
     public void addAnimal(Animal animal) {
         animals.put(animal.id, animal);
     }

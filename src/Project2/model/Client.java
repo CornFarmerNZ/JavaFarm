@@ -124,9 +124,6 @@ public class Client {
         panelConfig.add(buttonAddAnimal, BorderLayout.EAST);
 
         JButton buttonRestart = new JButton("Save Farm");
-        buttonRestart.addActionListener(e -> {
-            farm.save();
-        });
 
         panelConfig.add(buttonRestart);
         buttonAddAnimal.addActionListener(e -> {
@@ -229,15 +226,37 @@ public class Client {
         JButton buttonLogin = new JButton("Login!");
         JLabel labelLogin = new JLabel();
 
+        buttonRestart.addActionListener(e -> {
+            timerGame.stop();
+            farm.save(currentUser);
+            try {
+                farm = new FarmController();
+                frameGame.setVisible(false);
+                //sets previously filled out textFields and interacted labels to empty.
+                textFieldUsername.setText("");
+                textFieldPassword.setText("");
+                labelLogin.setText("");
+                labelResultPrefix.setText("");
+                textFieldFarmName.setText("");
+                labelResult.setText("");
+                frameLogin.setVisible(true);
+            } catch (NullPointerException ne) {
+                //removes current farm controller with new one.
+                System.out.println("test");
+            }
+        });
+
         buttonLogin.addActionListener(e -> {
             int result = dbManager.login(textFieldUsername.getText().trim(), textFieldPassword.getText().trim());
             currentUser = textFieldUsername.getText().trim();
             switch (result) {
                 case 0:
                     labelLogin.setText("Login successful!");
-                    labelFarmSubHeader.setText("Welcome to your new farm - " + currentUser + "!");
+                    labelFarmSubHeader.setText("Welcome back to your farm - " + currentUser + "!");
                     frameLogin.setVisible(false);
-                    frameFarm.setVisible(true);
+                    frameGame.setVisible(true);
+                    farm.loadFarm(currentUser);
+                    timerGame.start();
                     break;
                 case 1:
                     labelLogin.setText("Username and password cannot be empty.");

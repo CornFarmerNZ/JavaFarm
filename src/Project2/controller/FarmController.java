@@ -57,9 +57,12 @@ public class FarmController {
 
     public boolean loadFarm(String user) {
         try {
+            //Offload work to dbManager.
             farm = dbManager.retrieveFarm(user);
+            System.out.println(farm);
         } catch (Exception ex) {
             System.out.println("Error loading farm.");
+            System.err.println(ex);
             return false;
         }
         return true;
@@ -70,10 +73,11 @@ public class FarmController {
     }
 
     public void save(String user) {
+        //gets each animal from HashMap.
         for (Entry e : ((AnimalFarm) farm).getAnimals().entrySet()) {
             Animal animal = (Animal) e.getValue();
+            //saves into DB.
             dbManager.saveAnimal(user, animal);
-
         }
 
     }

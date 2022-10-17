@@ -56,6 +56,7 @@ public class DBManager {
 
     public int login(String username, String password) {
         try {
+            //finds user,pass, based on input username.
             ResultSet results = queryDB("SELECT USERNAME, PASSWORD FROM USERS WHERE USERNAME = '" + username + "'");
 
             System.out.println(results.getRow());
@@ -65,17 +66,19 @@ public class DBManager {
                 resultUsername = results.getString(1);
                 resultPassword = results.getString(2);
             } else {
+                //if there is no Query entry resulting from username:
                 updateDB("INSERT INTO USERS ( USERNAME, PASSWORD ) VALUES ( '" + username + "', '" + password + "' )");
                 return 3;
             }
-            System.out.println(resultUsername);
-            System.out.println(resultPassword);
-
+            //if there is query, returns number to be managed elsewhere.
+            //correct password
             if (password.equals(resultPassword) && username.equals(resultUsername)) {
                 return 0;
+                //empty password
             } else if (username.trim().equals("") || password.trim().equals("")) {
                 return 1;
             } else {
+                //incorrect password
                 return 2;
             }
         } catch (SQLException ex) {
@@ -118,6 +121,7 @@ public class DBManager {
         try {
             if (results.next()) {
                 try {
+                    //retrieves farm info from USERS table
                     userID = results.getInt(1);
                     farmName = results.getString(2);
                     day = results.getInt(3);
@@ -128,9 +132,9 @@ public class DBManager {
                     farm.setDay(day);
                     farm.setEnergy(energy);
                     farm.setGold(gold);
-                    System.out.println(farm);
-
                     ResultSet resultsAnimals = queryDB("SELECT AGE, TYPE, HUNGER, THIRST FROM ANIMALS WHERE OWNERID = " + userID + "");
+                    //if any animals exist under the user's ID, query ANIMAL table.
+                    //adds each animal to farm.
                     while (resultsAnimals.next()) {
                         int age = resultsAnimals.getInt(1);
                         String type = resultsAnimals.getString(2);
@@ -156,6 +160,7 @@ public class DBManager {
     }
 
     public void saveAnimal(String user, Animal animal) {
+        //matches user ID to each animal
         ResultSet results = queryDB("SELECT ID FROM USERS WHERE USERNAME = '" + user + "'");
         int userID = 0;
         try {
@@ -175,7 +180,8 @@ public class DBManager {
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("INSERT INTO ANIMALS ( ID, AGE, TYPE, HUNGER, THIRST ) VALUES ( " + userID + ", " + animal.getAge() + ", " + "'" + animal.getType() + "', " + animal.getHunger() + ", " + animal.getThirst() + ")");
+        //inserts animal with matching ownerid.
+        //System.out.println("INSERT INTO ANIMALS ( ID, AGE, TYPE, HUNGER, THIRST ) VALUES ( " + userID + ", " + animal.getAge() + ", " + "'" + animal.getType() + "', " + animal.getHunger() + ", " + animal.getThirst() + ")");
         updateDB("INSERT INTO ANIMALS ( OWNERID, AGE, TYPE, HUNGER, THIRST ) VALUES ( " + userID + ", " + animal.getAge() + ", " + "'" + animal.getType() + "', " + animal.getHunger() + ", " + animal.getThirst() + ")");
     }
 
