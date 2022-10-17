@@ -84,15 +84,6 @@ public interface FarmInterface {
     public void advanceTime(int numberOfDays);
 
     /**
-     * Does an activity.
-     *
-     * @param activity Activity to be done.
-     * @return returns True if activity is successfully done, otherwise returns
-     * False.
-     */
-    public boolean doActivity(AbstractActivity activity);
-
-    /**
      *
      * @return Energy amount.
      */

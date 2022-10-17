@@ -84,19 +84,6 @@ public class AnimalFarm implements FarmInterface, Runnable {
         return temp;
     }
 
-    @Override
-    public boolean doActivity(AbstractActivity activity) {
-
-        try {
-            this.setEnergy(this.getEnergy() - 1);
-            return (((AbstractActivity) (activity)).start(this));
-        } catch (ClassCastException e) {
-            System.out.println("Game is saving...");
-            //exception only occurs for Exit activity, since it Extends Activity, not CropActivity or AnimalActivity.
-        }
-        return false;
-    }
-
     public List<Animal> getAnimals() {
         return this.animals;
     }
