@@ -5,6 +5,8 @@
  */
 package Project2.service;
 
+import Project2.entity.Animal;
+import Project2.entity.AnimalFarm;
 import Project2.model.Client;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -34,6 +36,7 @@ public class DBManager {
     public void setUp() {
         // Generates table
         updateDB("CREATE TABLE USERS (ID INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY(Start with 1, Increment by 1), USERNAME  VARCHAR(50), PASSWORD VARCHAR(50), FARMNAME VARCHAR(50), DAY INTEGER, ENERGY SMALLINT, GOLD INTEGER)");
+        updateDB("CREATE TABLE ANIMALS (ID INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY(Start with 1, Increment by 1), OWNERID SMALLINT, AGE INTEGER, TYPE VARCHAR(50), HUNGER SMALLINT, THIRST SMALLINT)");
     }
 
     public Connection getConnection() {
@@ -103,6 +106,76 @@ public class DBManager {
             System.out.println(ex.getMessage());
         }
         return resultSet;
+    }
+
+    public AnimalFarm retrieveFarm(String user) throws Exception {
+        ResultSet results = queryDB("SELECT ID, FARMNAME, DAY, ENERGY, GOLD FROM USERS WHERE USERNAME = '" + user + "'");
+        int userID = 0;
+        String farmName = "";
+        int day = 0;
+        int energy = 0;
+        int gold = 0;
+        try {
+            if (results.next()) {
+                try {
+                    userID = Integer.parseInt(results.getString(1));
+                    farmName = results.getString(2);
+                    day = Integer.parseInt(results.getString(3));
+                    energy = Integer.parseInt(results.getString(4));
+                    gold = Integer.parseInt(results.getString(5));
+                    AnimalFarm farm = new AnimalFarm();
+                    farm.setName(farmName);
+                    farm.setDay(day);
+                    farm.setEnergy(energy);
+                    farm.setGold(gold);
+
+                    ResultSet resultsAnimals = queryDB("SELECT AGE, TYPE, HUNGER, THIRST, FROM ANIMALS WHERE OWNERID = '" + userID + "'");
+                    while (results.next()) {
+                        int age = Integer.parseInt(resultsAnimals.getString(1));
+                        String type = resultsAnimals.getString(2);
+                        int hunger = Integer.parseInt(resultsAnimals.getString(1));
+                        int thirst = Integer.parseInt(resultsAnimals.getString(1));
+                        farm.addAnimal(age, type, hunger, thirst);
+                    }
+                    return farm;
+                } catch (SQLException ex) {
+                    Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                try {
+                    throw new Exception("Failed to save data");
+                } catch (Exception ex) {
+                    Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        throw new Exception("Farm could not be loaded...");
+    }
+
+    public void saveAnimal(String user, Animal animal) {
+        ResultSet results = queryDB("SELECT ID FROM USERS WHERE USERNAME = '" + user + "'");
+        int userID = 0;
+        try {
+            if (results.next()) {
+                try {
+                    userID = Integer.parseInt(results.getString(1));
+                } catch (SQLException ex) {
+                    Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                try {
+                    throw new Exception("Failed to save data");
+                } catch (Exception ex) {
+                    Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("INSERT INTO ANIMALS ( ID, AGE, TYPE, HUNGER, THIRST ) VALUES ( " + userID + ", " + animal.getAge() + ", " + "'" + animal.getType() + "', " + animal.getHunger() + ", " + animal.getThirst() + ")");
+        updateDB("INSERT INTO ANIMALS ( OWNERID, AGE, TYPE, HUNGER, THIRST ) VALUES ( " + userID + ", " + animal.getAge() + ", " + "'" + animal.getType() + "', " + animal.getHunger() + ", " + animal.getThirst() + ")");
     }
 
     public void updateDB(String sql) {
