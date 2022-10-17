@@ -10,6 +10,7 @@ package Project2.controller;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import Project2.entity.Animal;
 import Project2.entity.AnimalFarm;
 import Project2.entity.FarmInterface;
 import Project2.service.DBManager;
@@ -18,6 +19,7 @@ import java.sql.Statement;
 
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.List;
 
 /**
  *
@@ -53,5 +55,9 @@ public class FarmController {
         farm = new AnimalFarm();
 
         return false;
+    }
+
+    public List<Animal> getAnimals() {
+        return ((AnimalFarm) farm).getAnimals();
     }
 }
