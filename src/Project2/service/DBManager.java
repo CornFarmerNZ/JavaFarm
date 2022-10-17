@@ -159,8 +159,12 @@ public class DBManager {
         throw new Exception("Farm could not be loaded...");
     }
 
-    public void saveAnimal(String user, Animal animal) {
-        //matches user ID to each animal
+    /**
+     * used before saving, to remove duplicate animals.
+     *
+     * @param user user to remove all animals from DB
+     */
+    public void removeAnimals(String user) {
         ResultSet results = queryDB("SELECT ID FROM USERS WHERE USERNAME = '" + user + "'");
         int userID = 0;
         try {
@@ -180,6 +184,32 @@ public class DBManager {
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+        queryDB("DELETE FROM ANIMALS WHERE OWNERID = " + userID);
+    }
+
+    public void saveAnimal(String user, Animal animal) {
+        //matches user ID to each animal
+
+        ResultSet results = queryDB("SELECT ID FROM USERS WHERE USERNAME = '" + user + "'");
+        int userID = 0;
+        try {
+            if (results.next()) {
+                try {
+                    userID = results.getInt(1);
+                } catch (SQLException ex) {
+                    Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                try {
+                    throw new Exception("Failed to save data");
+                } catch (Exception ex) {
+                    Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         //inserts animal with matching ownerid.
         //System.out.println("INSERT INTO ANIMALS ( ID, AGE, TYPE, HUNGER, THIRST ) VALUES ( " + userID + ", " + animal.getAge() + ", " + "'" + animal.getType() + "', " + animal.getHunger() + ", " + animal.getThirst() + ")");
         updateDB("INSERT INTO ANIMALS ( OWNERID, AGE, TYPE, HUNGER, THIRST ) VALUES ( " + userID + ", " + animal.getAge() + ", " + "'" + animal.getType() + "', " + animal.getHunger() + ", " + animal.getThirst() + ")");
