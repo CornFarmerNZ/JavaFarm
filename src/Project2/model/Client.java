@@ -103,8 +103,8 @@ public class Client {
         //rendered farm window - main game.
         JFrame frameGame = new JFrame();
         frameGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frameGame.setPreferredSize(new Dimension(1214, 650));
-        frameGame.setMinimumSize(new Dimension(1214, 650));
+        frameGame.setPreferredSize(new Dimension(1414, 650));
+        frameGame.setMinimumSize(new Dimension(1414, 650));
         frameGame.setLocationRelativeTo(null);
         frameGame.setLayout(new BorderLayout());
         frameGame.setContentPane(new JLabel(new ImageIcon("./resources/soil.png")));
@@ -113,7 +113,7 @@ public class Client {
 //        gamePane.setLayout(new BoxLayout(gamePane, BoxLayout.Y_AXIS));
 
         StrawPanel panelGameHeader = new StrawPanel();
-        panelGameHeader.setPreferredSize(new Dimension(1114, 100));
+        panelGameHeader.setPreferredSize(new Dimension(1354, 100));
 
         JLabel labelGame = new JLabel("Java Farm");
         labelGame.setFont(new Font("Serif", Font.BOLD, 48));
@@ -124,10 +124,10 @@ public class Client {
         StrawPanel panelConfig = new StrawPanel();
         JTextArea textGame = new JTextArea();
         textGame.setEditable(false);
-        textGame.setPreferredSize(new Dimension(1000, 92));
+        textGame.setPreferredSize(new Dimension(1150, 92));
         textGame.setText("Welcome to the farm!");
-        panelConfig.add(textGame);
-        panelConfig.setPreferredSize(new Dimension(1114, 100));
+        panelConfig.add(textGame, BorderLayout.WEST);
+        panelConfig.setPreferredSize(new Dimension(1354, 100));
         Choice choiceActivity = new Choice();
         choiceActivity.setName("Activities");
         choiceActivity.addItem("Feed Animals");
@@ -145,7 +145,7 @@ public class Client {
 
         JScrollPane scrollAnimals = new JScrollPane(listAnimals);
         scrollAnimals.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollAnimals.setPreferredSize(new Dimension(100, 400));
+        scrollAnimals.setPreferredSize(new Dimension(320, 390));
         panelAnimals.add(scrollAnimals, BorderLayout.EAST);
 
         frameGame.add(panelGameHeader);
@@ -165,6 +165,7 @@ public class Client {
             if (farm.getFarm().isPlaying()) {
                 panelGame.revalidate();
                 panelGame.repaint();
+                listAnimals.setListData(farm.getAnimals().toArray());
             }
         });
 
