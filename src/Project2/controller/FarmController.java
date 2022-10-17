@@ -73,6 +73,8 @@ public class FarmController {
     }
 
     public void save(String user) {
+        //removes all animals from DB in advance, to avoid duplicates;
+        dbManager.removeAnimals(user);
         //gets each animal from HashMap.
         for (Entry e : ((AnimalFarm) farm).getAnimals().entrySet()) {
             Animal animal = (Animal) e.getValue();
