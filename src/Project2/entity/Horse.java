@@ -97,6 +97,11 @@ public class Horse extends Animal {
                 }
                 alive = false;
             }
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Sheep.class.getName()).log(Level.SEVERE, null, ex);
+            }
             this.mood = moodCheck();
             this.x += (random.nextInt(10) * this.direction);
             this.y += (random.nextInt(5) * this.direction);

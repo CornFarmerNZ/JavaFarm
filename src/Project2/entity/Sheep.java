@@ -98,7 +98,11 @@ public class Sheep extends Animal {
                 alive = false;
             }
             this.mood = moodCheck();
-
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Sheep.class.getName()).log(Level.SEVERE, null, ex);
+            }
             this.x += (random.nextInt(2) * this.direction);
             this.y += (random.nextInt(1) * this.direction);
             if (this.x > 950 || this.y > 350) {

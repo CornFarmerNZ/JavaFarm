@@ -98,6 +98,11 @@ public class Kiwi extends Animal {
                 System.out.println(this.type + " - " + this.id + " has been sold!");
                 alive = false;
             }
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Sheep.class.getName()).log(Level.SEVERE, null, ex);
+            }
             this.mood = moodCheck();
             this.x += (1 * this.direction);
             this.y += (1 * this.direction);
