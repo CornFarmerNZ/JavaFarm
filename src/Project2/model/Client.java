@@ -120,6 +120,7 @@ public class Client {
         panelGameHeader.add(labelGame);
         DPanel panelGame = new DPanel();
         panelGame.setPreferredSize(new Dimension(1000, 400));
+        panelGame.setMaximumSize(new Dimension(1000, 400));
 
         StrawPanel panelConfig = new StrawPanel();
         JTextArea textGame = new JTextArea();
@@ -156,11 +157,7 @@ public class Client {
         frameGame.pack();
         frameGame.setVisible(false);
 
-        Timer timerGame = new Timer(1000, event -> {
-//            if (!farm.getFarm().isPlaying()) {
-//                ((Timer) event.getSource()).stop();
-//            }
-//            panelGame.paintComponent(panelGame.getGraphics());
+        Timer timerGame = new Timer(25, event -> {
             frameGame.setTitle(farm.getFarm().getName() + " - Day: " + farm.getFarm().getDay() + " - Energy: " + farm.getFarm().getEnergy() + " - Gold: " + farm.getFarm().getGold());
             if (farm.getFarm().isPlaying()) {
                 panelGame.revalidate();
@@ -177,6 +174,7 @@ public class Client {
                 //each Timer-tick (25ms) has a 2% chance of stopping the dice-roll and starting the game.
                 farm.getFarm().setGold(rand);
                 ((AnimalFarm) farm.getFarm()).addAnimal("PIG");
+                ((AnimalFarm) farm.getFarm()).addAnimal("HORSE");
                 frameGame.setTitle(farm.getFarm().getName());
                 frameFarm.setVisible(false);
                 frameGame.setVisible(true);
@@ -312,7 +310,6 @@ public class Client {
             for (Animal a : ((AnimalFarm) farm.getFarm()).getAnimals()) {
                 g.drawImage(imageFactory.getImage(a.getType()), a.getX(), a.getY(), this);
             }
-            System.out.println("painting!");
         }
 
     }
