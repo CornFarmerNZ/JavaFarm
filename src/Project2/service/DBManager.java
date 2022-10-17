@@ -166,7 +166,7 @@ public class DBManager {
         try {
             if (results.next()) {
                 try {
-                    userID = Integer.parseInt(results.getString(1));
+                    userID = results.getInt(1);
                 } catch (SQLException ex) {
                     Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
