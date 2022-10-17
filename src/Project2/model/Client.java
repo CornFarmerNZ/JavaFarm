@@ -7,8 +7,10 @@ package Project2.model;
 
 import Project2.service.DBManager;
 import Project2.controller.FarmController;
+import Project2.entity.AbstractActivity;
 import Project2.entity.Animal;
 import Project2.entity.AnimalFarm;
+import Project2.service.AnimalActivityFactory;
 import Project2.service.ImageFactory;
 import java.awt.BorderLayout;
 import java.awt.Choice;
@@ -30,7 +32,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.Timer;
@@ -50,12 +54,15 @@ public class Client {
     static DBManager dbManager;
     static String currentUser;
     static ImageFactory imageFactory;
+    static AnimalActivityFactory animalActivityFactory;
 
     public static void main(String[] args) {
         farm = new FarmController();
         dbManager = new DBManager();
         dbManager.establishConnection();
         imageFactory = new ImageFactory();
+        animalActivityFactory = new AnimalActivityFactory((AnimalFarm) farm.getFarm());
+
         Random random = new Random();
 
         //Farm configuration window.
@@ -96,8 +103,8 @@ public class Client {
         //rendered farm window - main game.
         JFrame frameGame = new JFrame();
         frameGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frameGame.setPreferredSize(new Dimension(1014, 650));
-        frameGame.setMinimumSize(new Dimension(1014, 650));
+        frameGame.setPreferredSize(new Dimension(1214, 650));
+        frameGame.setMinimumSize(new Dimension(1214, 650));
         frameGame.setLocationRelativeTo(null);
         frameGame.setLayout(new BorderLayout());
         frameGame.setContentPane(new JLabel(new ImageIcon("./resources/soil.png")));
@@ -106,30 +113,44 @@ public class Client {
 //        gamePane.setLayout(new BoxLayout(gamePane, BoxLayout.Y_AXIS));
 
         StrawPanel panelGameHeader = new StrawPanel();
-        panelGameHeader.setPreferredSize(new Dimension(1000, 100));
+        panelGameHeader.setPreferredSize(new Dimension(1114, 100));
 
         JLabel labelGame = new JLabel("Java Farm");
         labelGame.setFont(new Font("Serif", Font.BOLD, 48));
         panelGameHeader.add(labelGame);
         DPanel panelGame = new DPanel();
         panelGame.setPreferredSize(new Dimension(1000, 400));
+
         StrawPanel panelConfig = new StrawPanel();
         JTextArea textGame = new JTextArea();
         textGame.setEditable(false);
-        textGame.setPreferredSize(new Dimension(800, 92));
+        textGame.setPreferredSize(new Dimension(1000, 92));
         textGame.setText("Welcome to the farm!");
         panelConfig.add(textGame);
-        panelConfig.setPreferredSize(new Dimension(1000, 100));
+        panelConfig.setPreferredSize(new Dimension(1114, 100));
         Choice choiceActivity = new Choice();
         choiceActivity.setName("Activities");
         choiceActivity.addItem("Feed Animals");
         choiceActivity.addItem("Water Animals");
         choiceActivity.addItem("Sleep/save");
         panelConfig.add(choiceActivity, BorderLayout.EAST);
-        choiceActivity.setEnabled(false);
+
+        choiceActivity.addItemListener(l -> {
+            AbstractActivity activity = animalActivityFactory.get("" + l.getItem().toString());
+            activity.start();
+        });
+
+        JPanel panelAnimals = new JPanel();
+        JList listAnimals = new JList();
+
+        JScrollPane scrollAnimals = new JScrollPane(listAnimals);
+        scrollAnimals.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollAnimals.setPreferredSize(new Dimension(100, 400));
+        panelAnimals.add(scrollAnimals, BorderLayout.EAST);
 
         frameGame.add(panelGameHeader);
-        frameGame.add(panelGame);
+        frameGame.add(panelGame, BorderLayout.WEST);
+        frameGame.add(panelAnimals, BorderLayout.EAST);
         frameGame.add(panelConfig);
 
         frameGame.pack();
@@ -154,6 +175,7 @@ public class Client {
             if (random.nextInt(1000) <= 20) {
                 //each Timer-tick (25ms) has a 2% chance of stopping the dice-roll and starting the game.
                 farm.getFarm().setGold(rand);
+                ((AnimalFarm) farm.getFarm()).addAnimal("PIG");
                 frameGame.setTitle(farm.getFarm().getName());
                 frameFarm.setVisible(false);
                 frameGame.setVisible(true);
