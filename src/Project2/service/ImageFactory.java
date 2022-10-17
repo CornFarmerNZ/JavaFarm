@@ -23,6 +23,8 @@ public class ImageFactory {
             String input = image.toUpperCase();
             if (input.equals("PIG")) {
                 return ImageIO.read(new File("./resources/pig.png"));
+            } else if (input.equals("HORSE")) {
+                return ImageIO.read(new File("./resources/horse.png"));
             } else if (input.equals("BACKGROUND")) {
                 return ImageIO.read(new File("./resources/background.jpg"));
             } else if (input.equals("HEADER")) {
