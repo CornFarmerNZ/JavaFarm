@@ -16,6 +16,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -115,29 +116,34 @@ public class Client {
         StrawPanel panelConfig = new StrawPanel();
         JTextArea textGame = new JTextArea();
         textGame.setEditable(false);
-        textGame.setPreferredSize(new Dimension(1150, 92));
+        textGame.setPreferredSize(new Dimension(1050, 92));
         textGame.setText("Welcome to the farm!");
         panelConfig.add(textGame, BorderLayout.WEST);
         panelConfig.setPreferredSize(new Dimension(1354, 100));
         JButton buttonAddAnimal = new JButton("Add animal");
         panelConfig.add(buttonAddAnimal, BorderLayout.EAST);
 
+        JButton buttonRestart = new JButton("Save Farm");
+        buttonRestart.addActionListener(e -> {
+            farm.save();
+        });
+
+        panelConfig.add(buttonRestart);
         buttonAddAnimal.addActionListener(e -> {
-            switch (random.nextInt(3)) {
-                case 0:
+            switch (random.nextInt(5) + 1) {
+                case 2:
                     ((AnimalFarm) farm.getFarm()).addAnimal("PIG");
                     break;
-                case 1:
+                case 3:
                     ((AnimalFarm) farm.getFarm()).addAnimal("HORSE");
                     break;
-                case 2:
+                case 4:
                     ((AnimalFarm) farm.getFarm()).addAnimal("SHEEP");
                     break;
-                case 3:
+                case 5:
                     ((AnimalFarm) farm.getFarm()).addAnimal("KIWI");
                     break;
             }
-
         });
 
         JPanel panelAnimals = new JPanel();
@@ -161,7 +167,7 @@ public class Client {
             if (farm.getFarm().isPlaying()) {
                 panelGame.revalidate();
                 panelGame.repaint();
-                listAnimals.setListData(farm.getAnimals().toArray());
+                listAnimals.setListData(farm.getAnimals().entrySet().toArray());
             }
         });
 
@@ -306,7 +312,8 @@ public class Client {
         @Override
         public void paintComponent(Graphics g) {
             g.drawImage(imageFactory.getImage("background"), 0, 0, this);
-            for (Animal a : ((AnimalFarm) farm.getFarm()).getAnimals()) {
+            for (Entry e : ((AnimalFarm) farm.getFarm()).getAnimals().entrySet()) {
+                Animal a = (Animal) e.getValue();
                 g.drawImage(imageFactory.getImage(a.getType()), a.getX(), a.getY(), this);
             }
         }
