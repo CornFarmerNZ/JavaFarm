@@ -107,6 +107,11 @@ public class Kiwi extends Animal {
                 }
                 this.x += (1 * this.direction);
                 this.y += (1 * this.direction);
+                if (this.x > 1000 || this.y > 400) {
+                    this.direction = -1;
+                } else if (this.x < 0 || this.y < 0) {
+                    this.direction = 1;
+                }
             } catch (InterruptedException ex) {
                 Logger.getLogger(Pig.class.getName()).log(Level.SEVERE, null, ex);
             }

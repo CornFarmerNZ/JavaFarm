@@ -109,8 +109,13 @@ public class Pig extends Animal {
                     this.hunger++;
                     this.thirst += 2;
                 }
-                this.x += (1 * this.direction);
-                this.y += (1 * this.direction);
+                this.x += (random.nextInt(10) * this.direction);
+                this.y += (random.nextInt(5) * this.direction);
+                if (this.x > 950 || this.y > 350) {
+                    this.direction = -1;
+                } else if (this.x < 50 || this.y < 50) {
+                    this.direction = 1;
+                }
             } catch (InterruptedException ex) {
                 Logger.getLogger(Pig.class.getName()).log(Level.SEVERE, null, ex);
             }

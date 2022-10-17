@@ -99,15 +99,21 @@ public class Horse extends Animal {
             }
             try {
                 this.mood = moodCheck();
-                Thread.sleep(1000);
-                if (random.nextDouble() < 0.1333) {
+                Thread.sleep(500);
+                if (random.nextDouble() < 0.0666) {
                     //occurs every 75s on average.
                     this.hunger += 1;
                     this.thirst += 2;
-
                 }
-                this.x += (1 * this.direction);
-                this.y += (1 * this.direction);
+                System.out.println(x + " - " + y);
+                this.x += (random.nextInt(10) * this.direction);
+                this.y += (random.nextInt(5) * this.direction);
+                if (this.x > 950 || this.y > 350) {
+                    this.direction = -1;
+                } else if (this.x < 50 || this.y < 50) {
+                    this.direction = 1;
+                }
+
             } catch (InterruptedException ex) {
                 Logger.getLogger(Pig.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -117,7 +123,7 @@ public class Horse extends Animal {
     @Override
     public String toString() {
 
-        return "" + this.type + " - " + this.id + " Age: " + this.age + " Hunger: " + this.hunger + " Thirst: " + this.thirst + " Mood: " + this.mood;
+        return "" + " - xy: " + this.x + this.y + this.type + " - " + this.id + " Age: " + this.age + " Hunger: " + this.hunger + " Thirst: " + this.thirst + " Mood: " + this.mood;
     }
 
     public Mood moodCheck() {
