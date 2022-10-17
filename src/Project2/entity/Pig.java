@@ -101,24 +101,16 @@ public class Pig extends Animal {
                 }
                 alive = false;
             }
-            try {
-                this.mood = moodCheck();
-                Thread.sleep(1000);
-                if (random.nextDouble() < 0.01666) {
-                    //occurs once a minute, on average.
-                    this.hunger++;
-                    this.thirst += 2;
-                }
-                this.x += (random.nextInt(10) * this.direction);
-                this.y += (random.nextInt(5) * this.direction);
-                if (this.x > 950 || this.y > 350) {
-                    this.direction = -1;
-                } else if (this.x < 50 || this.y < 50) {
-                    this.direction = 1;
-                }
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Pig.class.getName()).log(Level.SEVERE, null, ex);
+            this.mood = moodCheck();
+
+            this.x += (random.nextInt(2) * this.direction);
+            this.y += (random.nextInt(1) * this.direction);
+            if (this.x > 950 || this.y > 350) {
+                this.direction = -1;
+            } else if (this.x < 50 || this.y < 50) {
+                this.direction = 1;
             }
+
         }
     }
 

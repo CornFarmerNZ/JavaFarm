@@ -97,25 +97,15 @@ public class Horse extends Animal {
                 }
                 alive = false;
             }
-            try {
-                this.mood = moodCheck();
-                Thread.sleep(500);
-                if (random.nextDouble() < 0.0666) {
-                    //occurs every 75s on average.
-                    this.hunger += 1;
-                    this.thirst += 2;
-                }
-                this.x += (random.nextInt(10) * this.direction);
-                this.y += (random.nextInt(5) * this.direction);
-                if (this.x > 950 || this.y > 350) {
-                    this.direction = -1;
-                } else if (this.x < 50 || this.y < 50) {
-                    this.direction = 1;
-                }
-
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Pig.class.getName()).log(Level.SEVERE, null, ex);
+            this.mood = moodCheck();
+            this.x += (random.nextInt(10) * this.direction);
+            this.y += (random.nextInt(5) * this.direction);
+            if (this.x > 950 || this.y > 350) {
+                this.direction = -1;
+            } else if (this.x < 50 || this.y < 50) {
+                this.direction = 1;
             }
+
         }
     }
 
