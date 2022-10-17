@@ -184,7 +184,7 @@ public class DBManager {
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        queryDB("DELETE FROM ANIMALS WHERE OWNERID = " + userID);
+        updateDB("DELETE FROM ANIMALS WHERE OWNERID = " + userID);
     }
 
     public void saveAnimal(String user, Animal animal) {
