@@ -110,8 +110,12 @@ public class Kiwi extends Animal {
             this.y += (random.nextInt(5) * this.direction);
             if (this.x > 950 || this.y > 350) {
                 this.direction = -1;
+                this.x = 950;
+                this.y = 350;
             } else if (this.x < 50 || this.y < 50) {
                 this.direction = 1;
+                this.x = 50;
+                this.y = 50;
             }
 
         }

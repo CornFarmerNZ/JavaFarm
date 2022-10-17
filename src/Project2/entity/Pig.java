@@ -111,8 +111,12 @@ public class Pig extends Animal {
             this.y += (random.nextInt(1) * this.direction);
             if (this.x > 950 || this.y > 350) {
                 this.direction = -1;
+                this.x = 950;
+                this.y = 350;
             } else if (this.x < 50 || this.y < 50) {
                 this.direction = 1;
+                this.x = 50;
+                this.y = 50;
             }
 
         }
