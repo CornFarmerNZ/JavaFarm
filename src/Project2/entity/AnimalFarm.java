@@ -7,7 +7,10 @@ package Project2.entity;
 
 import Project2.service.AnimalFactory;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,7 +22,7 @@ public class AnimalFarm implements FarmInterface, Runnable {
 
     String name;
     int day;
-    ArrayList<Animal> animals;
+    Map<Integer, Animal> animals;
     AnimalFactory factory;
     int energy;
     boolean hasKiwi = false;
@@ -27,7 +30,7 @@ public class AnimalFarm implements FarmInterface, Runnable {
     boolean playing;
 
     public AnimalFarm() {
-        animals = new ArrayList<>();
+        animals = new HashMap<>();
         factory = new AnimalFactory();
         playing = true;
         this.day = 1;
@@ -37,15 +40,16 @@ public class AnimalFarm implements FarmInterface, Runnable {
     }
 
     public void addAnimal(String animal) {
-        animals.add(factory.get(animal));
+        Animal temp = factory.get(animal);
+        animals.put(temp.id, temp);
     }
 
     public void addAnimal(Animal animal) {
-        animals.add(animal);
+        animals.put(animal.id, animal);
     }
 
     public void removeAnimal(Animal animal) {
-        animals.remove(animal);
+        animals.remove(animal.id);
     }
 
     @Override
@@ -76,15 +80,15 @@ public class AnimalFarm implements FarmInterface, Runnable {
     @Override
     public String toString() {
         String temp = "";
-        for (Animal a : animals) {
-            if (a != null) {
-                temp += a.toString() + "\n";
+        for (Entry e : animals.entrySet()) {
+            if (e != null) {
+                temp += e.getValue().toString() + "\n";
             }
         }
         return temp;
     }
 
-    public List<Animal> getAnimals() {
+    public Map<Integer, Animal> getAnimals() {
         return this.animals;
     }
 
@@ -108,7 +112,8 @@ public class AnimalFarm implements FarmInterface, Runnable {
         incrementDay();
         setEnergy(3);
         ArrayList<Animal> dead = new ArrayList<>();
-        for (Animal a : animals) {
+        for (Entry e : animals.entrySet()) {
+            Animal a = (Animal) e.getValue();
             a.age++;
             if (!a.getClass().equals(Kiwi.class)) {
                 a.setHunger(a.getHunger() + 2);
@@ -135,7 +140,7 @@ public class AnimalFarm implements FarmInterface, Runnable {
             Logger.getLogger(AnimalFarm.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (Animal a : dead) {
-            animals.remove(a);
+            animals.remove(a.id);
         }
     }
 
