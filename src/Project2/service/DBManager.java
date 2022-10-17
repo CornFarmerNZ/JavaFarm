@@ -131,7 +131,7 @@ public class DBManager {
                     System.out.println(farm);
 
                     ResultSet resultsAnimals = queryDB("SELECT AGE, TYPE, HUNGER, THIRST FROM ANIMALS WHERE OWNERID = " + userID + "");
-                    while (results.next()) {
+                    while (resultsAnimals.next()) {
                         int age = resultsAnimals.getInt(1);
                         String type = resultsAnimals.getString(2);
                         int hunger = resultsAnimals.getInt(3);
