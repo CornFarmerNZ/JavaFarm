@@ -105,7 +105,6 @@ public class Horse extends Animal {
                     this.hunger += 1;
                     this.thirst += 2;
                 }
-                System.out.println(x + " - " + y);
                 this.x += (random.nextInt(10) * this.direction);
                 this.y += (random.nextInt(5) * this.direction);
                 if (this.x > 950 || this.y > 350) {
@@ -123,7 +122,7 @@ public class Horse extends Animal {
     @Override
     public String toString() {
 
-        return "" + " - xy: " + this.x + this.y + this.type + " - " + this.id + " Age: " + this.age + " Hunger: " + this.hunger + " Thirst: " + this.thirst + " Mood: " + this.mood;
+        return "" + this.type + " - " + this.id + " Age: " + this.age + " Hunger: " + this.hunger + " Thirst: " + this.thirst + " Mood: " + this.mood;
     }
 
     public Mood moodCheck() {
