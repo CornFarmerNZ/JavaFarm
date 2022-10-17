@@ -130,7 +130,7 @@ public class DBManager {
                     farm.setGold(gold);
                     System.out.println(farm);
 
-                    ResultSet resultsAnimals = queryDB("SELECT AGE, TYPE, HUNGER, THIRST FROM ANIMALS WHERE OWNERID = '" + userID + "'");
+                    ResultSet resultsAnimals = queryDB("SELECT AGE, TYPE, HUNGER, THIRST FROM ANIMALS WHERE OWNERID = " + userID + "");
                     while (results.next()) {
                         int age = resultsAnimals.getInt(1);
                         String type = resultsAnimals.getString(2);
