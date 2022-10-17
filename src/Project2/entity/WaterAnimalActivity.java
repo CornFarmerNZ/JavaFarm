@@ -18,7 +18,7 @@ public class WaterAnimalActivity extends AbstractActivity {
     }
 
     @Override
-    public boolean start(FarmInterface farm) {
+    public boolean start() {
         try {
             for (Animal a : ((AnimalFarm) farm).getAnimals()) {
                 a.thirst -= 15;
