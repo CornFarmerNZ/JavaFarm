@@ -105,11 +105,11 @@ public class Sheep extends Animal {
                     this.hunger += 3;
                     this.thirst += 1;
                 }
-                this.x += (1 * this.direction);
-                this.y += (1 * this.direction);
-                if (this.x > 1000 || this.y > 400) {
+                this.x += (random.nextInt(10) * this.direction);
+                this.y += (random.nextInt(5) * this.direction);
+                if (this.x > 950 || this.y > 350) {
                     this.direction = -1;
-                } else if (this.x < 0 || this.y < 0) {
+                } else if (this.x < 50 || this.y < 50) {
                     this.direction = 1;
                 }
             } catch (InterruptedException ex) {
