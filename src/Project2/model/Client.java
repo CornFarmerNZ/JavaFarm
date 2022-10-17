@@ -3,6 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+/** Hosted on https://github.com/CornFarmerNZ/JavaFarm
+ * for proof of version control.
+ *
+ *
+ *
+ */
 package Project2.model;
 
 import Project2.service.DBManager;

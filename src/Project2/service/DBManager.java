@@ -29,8 +29,12 @@ public class DBManager {
     Connection conn;
 
     public DBManager() {
-        establishConnection();
-        setUp();
+        try {
+            establishConnection();
+            setUp();
+        } catch (Exception exc) {
+            System.out.println("Error connecting with database...");
+        }
     }
 
     public void setUp() {
@@ -49,7 +53,7 @@ public class DBManager {
             //Establish a connection to Database
             conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
         } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error establishing connection...");
         }
 
     }
@@ -191,7 +195,7 @@ public class DBManager {
         //matches user ID to each animal
 
         ResultSet results = queryDB("SELECT ID FROM USERS WHERE USERNAME = '" + user + "'");
-        int userID = 0;
+        int userID = 1;
         try {
             if (results.next()) {
                 try {
