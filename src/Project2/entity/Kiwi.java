@@ -30,8 +30,8 @@ public class Kiwi extends Animal {
         this.type = "Kiwi";
         this.mood = Mood.JOYFUL;
         this.value = 888;
-        this.x = 50;
-        this.y = 50;
+        this.x = random.nextInt(600) + 200;
+        this.y = random.nextInt(350) + 50;
         this.direction = 1;
     }
 

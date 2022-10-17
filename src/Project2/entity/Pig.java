@@ -29,8 +29,8 @@ public class Pig extends Animal {
         this.type = "Pig";
         this.mood = moodCheck();
         this.value = 100;
-        this.x = 50;
-        this.y = 50;
+        this.x = random.nextInt(600) + 200;
+        this.y = random.nextInt(350) + 50;
         this.direction = 1;
     }
 
