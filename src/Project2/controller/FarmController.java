@@ -20,6 +20,10 @@ import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -51,13 +55,26 @@ public class FarmController {
         return true;
     }
 
-    public boolean loadFarm() {
-        farm = new AnimalFarm();
-
-        return false;
+    public boolean loadFarm(String user) {
+        try {
+            farm = dbManager.retrieveFarm(user);
+        } catch (Exception ex) {
+            System.out.println("Error loading farm.");
+            return false;
+        }
+        return true;
     }
 
-    public List<Animal> getAnimals() {
+    public Map<Integer, Animal> getAnimals() {
         return ((AnimalFarm) farm).getAnimals();
+    }
+
+    public void save(String user) {
+        for (Entry e : ((AnimalFarm) farm).getAnimals().entrySet()) {
+            Animal animal = (Animal) e.getValue();
+            dbManager.saveAnimal(user, animal);
+
+        }
+
     }
 }
