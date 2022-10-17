@@ -7,26 +7,18 @@ package Project2.model;
 
 import Project2.service.DBManager;
 import Project2.controller.FarmController;
-import Project2.entity.AbstractActivity;
 import Project2.entity.Animal;
 import Project2.entity.AnimalFarm;
-import Project2.service.AnimalActivityFactory;
 import Project2.service.ImageFactory;
 import java.awt.BorderLayout;
-import java.awt.Choice;
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -54,14 +46,12 @@ public class Client {
     static DBManager dbManager;
     static String currentUser;
     static ImageFactory imageFactory;
-    static AnimalActivityFactory animalActivityFactory;
 
     public static void main(String[] args) {
         farm = new FarmController();
         dbManager = new DBManager();
         dbManager.establishConnection();
         imageFactory = new ImageFactory();
-        animalActivityFactory = new AnimalActivityFactory((AnimalFarm) farm.getFarm());
 
         Random random = new Random();
 
@@ -129,17 +119,8 @@ public class Client {
         textGame.setText("Welcome to the farm!");
         panelConfig.add(textGame, BorderLayout.WEST);
         panelConfig.setPreferredSize(new Dimension(1354, 100));
-        Choice choiceActivity = new Choice();
-        choiceActivity.setName("Activities");
-        choiceActivity.addItem("Feed Animals");
-        choiceActivity.addItem("Water Animals");
-        choiceActivity.addItem("Sleep/save");
-        panelConfig.add(choiceActivity, BorderLayout.EAST);
-
-        choiceActivity.addItemListener(l -> {
-            AbstractActivity activity = animalActivityFactory.get("" + l.getItem().toString());
-            activity.start();
-        });
+        JButton buttonAddAnimal = new JButton("Add animal");
+        panelConfig.add(buttonAddAnimal, BorderLayout.EAST);
 
         JPanel panelAnimals = new JPanel();
         JList listAnimals = new JList();
