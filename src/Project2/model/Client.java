@@ -122,6 +122,24 @@ public class Client {
         JButton buttonAddAnimal = new JButton("Add animal");
         panelConfig.add(buttonAddAnimal, BorderLayout.EAST);
 
+        buttonAddAnimal.addActionListener(e -> {
+            switch (random.nextInt(3)) {
+                case 0:
+                    ((AnimalFarm) farm.getFarm()).addAnimal("PIG");
+                    break;
+                case 1:
+                    ((AnimalFarm) farm.getFarm()).addAnimal("HORSE");
+                    break;
+                case 2:
+                    ((AnimalFarm) farm.getFarm()).addAnimal("SHEEP");
+                    break;
+                case 3:
+                    ((AnimalFarm) farm.getFarm()).addAnimal("KIWI");
+                    break;
+            }
+
+        });
+
         JPanel panelAnimals = new JPanel();
         JList listAnimals = new JList();
 
