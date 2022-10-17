@@ -11,6 +11,8 @@ package Project2.entity;
  */
 public interface AnimalInterface {
 
+    public int getId();
+
     public int setHunger(int num);
 
     public int getHunger();

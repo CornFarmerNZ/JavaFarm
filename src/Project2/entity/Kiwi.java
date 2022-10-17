@@ -36,6 +36,11 @@ public class Kiwi extends Animal {
     }
 
     @Override
+    public int getId() {
+        return this.id;
+    }
+
+    @Override
     public String getType() {
         return "Kiwi";
     }
