@@ -35,8 +35,8 @@ public class DBManager {
 
     public void setUp() {
         // Generates table
-        updateDB("CREATE TABLE USERS (ID INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY(Start with 1, Increment by 1), USERNAME  VARCHAR(50), PASSWORD VARCHAR(50), FARMNAME VARCHAR(50), DAY INTEGER, ENERGY SMALLINT, GOLD INTEGER)");
-        updateDB("CREATE TABLE ANIMALS (ID INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY(Start with 1, Increment by 1), OWNERID SMALLINT, AGE INTEGER, TYPE VARCHAR(50), HUNGER SMALLINT, THIRST SMALLINT)");
+        updateDB("CREATE TABLE USERS (ID INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY(Start with 1, Increment by 1), USERNAME  VARCHAR(50), PASSWORD VARCHAR(50), FARMNAME VARCHAR(50), DAY INTEGER, ENERGY INTEGER, GOLD INTEGER)");
+        updateDB("CREATE TABLE ANIMALS (ID INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY(Start with 1, Increment by 1), OWNERID INTEGER, AGE INTEGER, TYPE VARCHAR(50), HUNGER INTEGER, THIRST INTEGER)");
     }
 
     public Connection getConnection() {
@@ -118,23 +118,24 @@ public class DBManager {
         try {
             if (results.next()) {
                 try {
-                    userID = Integer.parseInt(results.getString(1));
+                    userID = results.getInt(1);
                     farmName = results.getString(2);
-                    day = Integer.parseInt(results.getString(3));
-                    energy = Integer.parseInt(results.getString(4));
-                    gold = Integer.parseInt(results.getString(5));
+                    day = results.getInt(3);
+                    energy = results.getInt(4);
+                    gold = results.getInt(5);
                     AnimalFarm farm = new AnimalFarm();
                     farm.setName(farmName);
                     farm.setDay(day);
                     farm.setEnergy(energy);
                     farm.setGold(gold);
+                    System.out.println(farm);
 
-                    ResultSet resultsAnimals = queryDB("SELECT AGE, TYPE, HUNGER, THIRST, FROM ANIMALS WHERE OWNERID = '" + userID + "'");
+                    ResultSet resultsAnimals = queryDB("SELECT AGE, TYPE, HUNGER, THIRST FROM ANIMALS WHERE OWNERID = '" + userID + "'");
                     while (results.next()) {
-                        int age = Integer.parseInt(resultsAnimals.getString(1));
+                        int age = resultsAnimals.getInt(1);
                         String type = resultsAnimals.getString(2);
-                        int hunger = Integer.parseInt(resultsAnimals.getString(1));
-                        int thirst = Integer.parseInt(resultsAnimals.getString(1));
+                        int hunger = resultsAnimals.getInt(3);
+                        int thirst = resultsAnimals.getInt(4);
                         farm.addAnimal(age, type, hunger, thirst);
                     }
                     return farm;
